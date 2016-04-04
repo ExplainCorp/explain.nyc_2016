@@ -1,0 +1,78 @@
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Explain Corporation - Est. 2011</title>
+<link type="text/css" rel="stylesheet" href="css/reset.css">
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/vide/dist/jquery.vide.min.js"></script>	
+<style type="text/css">
+body { padding:10px;font-family: "Monaco", monospace; line-height:22px;color:black;}
+a { color:black;}
+a:hover { color:pink;}
+.logo_txt { position:absolute;text-align: center;width:100%;top:10px;}
+.loc_left { position: absolute; left:10px;top:10px;}
+.loc_right { position: absolute; right:10px;top:10px;text-align: right;}
+.mobile { display: none; }
+.desktop { display: block; }
+.header { position: relative;height:75px;}
+.block { position: relative; text-align:center;}
+.contact { position: absolute; bottom:20px;text-align: center;width:100%;}
+.clear { clear:both;}
+@media (max-width: 768px) {
+	.desktop { display: none}
+	.mobile { display: block}
+}
+</style>
+</head>
+<body data-vide-bg="assets/holi.mp4" data-vide-options="loop: true, muted: true, position: 80% 0%">
+	<div class="header">
+		<h1 class="logo_txt"><span class="desktop">Explain Corporation</span><span class="mobile">xpln corp.</span></h1>
+		<div class="loc_left">
+			<h3 class="location"><span class="desktop">New York</span><span class="mobile">nyc</span></h3>
+			<h4 class="wx"><span id="ny_f">--</span>f / <span id="ny_c">--</span>c</h4>
+			<h4 class="wx" id="ny_wx">-</h4>
+		</div>
+		<div class="loc_right">
+			<h3 class="location"><span class="desktop">Mumbai</span><span class="mobile">mum</span></h3>
+			<h4 class="wx"><span id="mum_f">--</span>f / <span id="mum_c">--</span>c</h4>
+			<h4 class="wx" id="mum_wx">-</h4>
+		</div>
+	</div>
+	<div class="block">
+		<p>Recent work:</p>
+		<a href="https://www.facebook.com/frontline/videos/10153365339201641/" target="_blank">On the Brink of Famine 360°</a>
+	</div>
+	<div class="contact">
+		<a href="mailto:explain.inc@gmail.com">Contact</a>
+	</div>
+<script type="text/javascript">
+
+$(document).ready(function () {
+	// 	yahoo weather id:
+	//	12761333 	new york
+	//	2295411		mumbai
+	//	yql weather data
+
+	var wx_data = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(12761333%2C%202295411)&format=json&diagnostics=true&callback=?&nocache="+Math.random();
+	//(fTempVal - 32) * (5 / 9);
+	function init_wx() {
+		$.getJSON(wx_data, function(wx) {
+			console.log(wx)
+			$("#ny_f").html(wx.query.results.channel[0].item.condition.temp);
+			$("#ny_c").html(Math.round((wx.query.results.channel[0].item.condition.temp-32)*(5/9)));
+			$("#ny_wx").html(wx.query.results.channel[0].item.condition.text);
+			$("#mum_f").html(wx.query.results.channel[1].item.condition.temp);
+			$("#mum_c").html(Math.round((wx.query.results.channel[1].item.condition.temp-32)*(5/9)));
+			$("#mum_wx").html(wx.query.results.channel[1].item.condition.text);
+
+		})
+	}
+	init_wx();
+})
+
+
+</script>
+</body>
+</html>
+
